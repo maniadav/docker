@@ -1,0 +1,24 @@
+FROM node:23-alpine
+
+# Create and change to the app directory.
+WORKDIR /app
+
+# Copy package.json and yarn.lock (or package-lock.json)
+COPY package.json yarn.lock ./
+
+# Install dependencies and rebuild bcrypt
+RUN yarn install --frozen-lockfile
+
+# Copy the rest of the application files
+COPY . ./
+
+EXPOSE 5500
+
+# Set environment variables
+ENV NODE_ENV=development
+ENV PORT=5500
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["yarn", "run", "dev"]
+
+
